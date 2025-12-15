@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLASSIFIED DOCUMENT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+        }
+
+        /* Scanline effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 255, 0, 0.02) 50%,
+                transparent 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            background: rgba(0, 20, 0, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .poster-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            border: 2px solid #00ff00;
+            background: rgba(0, 20, 0, 0.8);
+            position: relative;
+        }
+
+        .poster-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .poster-image {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            display: block;
+        }
+
+        /* Placeholder for poster image */
+        .poster-placeholder {
+            width: 600px;
+            max-width: 100%;
+            height: 800px;
+            background: #000;
+            border: 3px solid #00ff00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            position: relative;
+        }
+
+        .poster-placeholder-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Clickable hotspot - positioned over a specific area of the poster */
+        .clickable-hotspot {
+            position: absolute;
+            top: 30%;  /* ADJUST THESE VALUES based on where you want the clickable area */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;  /* ADJUST SIZE */
+            height: 150px; /* ADJUST SIZE */
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        /* Visual feedback on hover - remove or make invisible for stealth mode */
+        .clickable-hotspot:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        /* Add a subtle hint indicator - remove if you want it completely hidden */
+        .clickable-hotspot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .document-section {
+            margin: 40px 0;
+            padding: 40px;
+            border: 2px solid #00ff00;
+            background: rgba(0, 20, 0, 0.9);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .document-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+        }
+
+        .document-title {
+            font-size: 20px;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .document-subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .document-body {
+            line-height: 1.8;
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        .document-body p {
+            margin-bottom: 20px;
+        }
+
+        .redacted {
+            background: #00ff00;
+            color: #00ff00;
+            padding: 0 5px;
+        }
+
+        .stamp {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border: 3px solid #00ff00;
+            transform: rotate(-5deg);
+            display: inline-block;
+            font-size: 24px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .stamp-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+
+        /* Click feedback animation */
+        @keyframes click-flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .clicked {
+            animation: click-flash 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CLASSIFIED DOCUMENT</h1>
+            <div class="subtitle">SECURITY CLEARANCE LEVEL 7 REQUIRED // ACCESS GRANTED</div>
+        </div>
+
+        <div class="poster-section">
+            <div class="poster-container">
+                <!-- REPLACE THIS PLACEHOLDER WITH YOUR ACTUAL IMAGE -->
+                <!-- <img src="your-poster-image.jpg" alt="Poster" class="poster-image"> -->
+                
+                <!-- Placeholder - Remove this div when you add your image -->
+                <div class="poster-placeholder">
+                    <div class="poster-placeholder-text">
+                        [YOUR POSTER IMAGE HERE]
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.5;">
+                        Replace the .poster-placeholder div with:<br>
+                        &lt;img src="your-poster.jpg" class="poster-image"&gt;
+                    </div>
+                </div>
+
+                <!-- Clickable hotspot - adjust position and size based on your poster -->
+                <div class="clickable-hotspot" id="secretSpot" title="???"></div>
+            </div>
+        </div>
+
+        <div class="document-section">
+            <div class="document-header">
+                <div class="document-title">MEMORANDUM OF UNDERSTANDING</div>
+                <div class="document-subtitle">DOCUMENT ID: XK-7721-MU-ALPHA // DATE: [REDACTED]</div>
+            </div>
+
+            <div class="document-body">
+                <p>
+                    <strong>TO:</strong> All Personnel with Level 7 Clearance and Above<br>
+                    <strong>FROM:</strong> <span class="redacted">████████████</span>, Director of Operations<br>
+                    <strong>RE:</strong> Protocol Designation ALPHA-SEVEN-SEVEN
+                </p>
+
+                <p>
+                    This memorandum serves as official documentation of the protocols established under 
+                    Project <span class="redacted">████████</span> in accordance with Directive 
+                    <span class="redacted">██-████</span>. All personnel are hereby advised that the 
+                    following procedures must be observed without exception.
+                </p>
+
+                <p>
+                    <strong>SECTION I: GENERAL PROVISIONS</strong><br>
+                    Under no circumstances shall any individual with clearance below Level 7 be granted 
+                    access to materials, communications, or data streams associated with this project. 
+                    All physical and digital artifacts must remain within designated secure zones at all times.
+                </p>
+
+                <p>
+                    <strong>SECTION II: OPERATIONAL PARAMETERS</strong><br>
+                    The parameters of operation have been established in consultation with 
+                    <span class="redacted">████████████████</span> and are to be considered immutable 
+                    for the duration of Phase <span class="redacted">██</span>. Deviation from these 
+                    parameters requires written authorization from <span class="redacted">████████████</span>.
+                </p>
+
+                <p>
+                    <strong>SECTION III: INFORMATION SECURITY</strong><br>
+                    All personnel are reminded that unauthorized disclosure of information related to 
+                    this memorandum constitutes a breach of <span class="redacted">████████</span> Protocol 
+                    and will result in immediate <span class="redacted">████████████</span> in accordance 
+                    with applicable regulations.
+                </p>
+
+                <p>
+                    <strong>SECTION IV: COMPLIANCE AND OVERSIGHT</strong><br>
+                    Compliance with these directives will be monitored through established channels. 
+                    Quarterly reviews will be conducted by <span class="redacted">████████████</span> 
+                    to ensure adherence to all specified protocols. Any anomalies detected during these 
+                    reviews must be reported within <span class="redacted">██</span> hours.
+                </p>
+
+                <p>
+                    <strong>SECTION V: TERMINATION CLAUSE</strong><br>
+                    This memorandum shall remain in effect until such time as <span class="redacted">████████</span> 
+                    or until superseded by Directive <span class="redacted">██-████-B</span>. In the event of 
+                    termination, all materials must be <span class="redacted">████████████</span> according 
+                    to standard decommissioning procedures.
+                </p>
+
+                <p style="margin-top: 40px;">
+                    <strong>AUTHORIZED BY:</strong> <span class="redacted">████████████████</span><br>
+                    <strong>DATE:</strong> <span class="redacted">██/██/████</span><br>
+                    <strong>CLASSIFICATION:</strong> TOP SECRET // LEVEL 7 CLEARANCE
+                </p>
+            </div>
+
+            <div class="stamp-container">
+                <div class="stamp">
+                    CLASSIFIED
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            DOCUMENT VERIFICATION CODE: XK-7721-MU-ALPHA-REV3 | PRINT DATE: [REDACTED]
+        </div>
+    </div>
+
+    <!-- Hidden comments for ARG purposes -->
+    <!-- The poster holds more than meets the eye -->
+    <!-- Look closer. Some things are meant to be clicked. -->
+    <!-- COORDINATES: [REDACTED] -->
+
+    <script>
+        // URL to redirect to when the hotspot is clicked
+        const secretVideoUrl = "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"; // REPLACE WITH YOUR UNLISTED VIDEO URL
+
+        const hotspot = document.getElementById('secretSpot');
+        let clickCount = 0;
+
+        hotspot.addEventListener('click', function() {
+            clickCount++;
+            
+            // Visual feedback
+            this.classList.add('clicked');
+            setTimeout(() => {
+                this.classList.remove('clicked');
+            }, 300);
+
+            // Redirect immediately on click
+            window.location.href = secretVideoUrl;
+        });
+
+        // Easter egg: hover counter
+        let hoverCount = 0;
+        hotspot.addEventListener('mouseenter', function() {
+            hoverCount++;
+            if (hoverCount === 5) {
+                console.log('%c🔍 You found something...', 'color: #00ff00; font-size: 16px;');
+            }
+        });
+
+        // Console easter egg
+        console.log('%cDOCUMENT LOADED', 'color: #00ff00; font-size: 14px; font-family: Courier New;');
+        console.log('%cSome secrets are hidden in plain sight...', 'color: #00ff00; font-size: 12px;');
+        
+        // Secret function
+        function reveal() {
+            console.log('%c╔══════════════════════════╗', 'color: #00ff00;');
+            console.log('%c║   REVEALING SECRETS...   ║', 'color: #00ff00;');
+            console.log('%c╚══════════════════════════╝', 'color: #00ff00;');
+            console.log('%cThe poster has a clickable area. Look for visual hints.', 'color: #00ff00;');
+            console.log('%cHotspot location: ' + hotspot.style.top + ' from top', 'color: #00ff00;');
+        }
+
+        // Make it slightly more visible after 30 seconds of no interaction
+        let interactionTimer = setTimeout(() => {
+            hotspot.style.background = 'rgba(0, 255, 0, 0.05)';
+        }, 30000);
+
+        // Reset timer on any interaction
+        document.addEventListener('click', () => {
+            clearTimeout(interactionTimer);
+        });
+    </script>
+</body>
+</html>
