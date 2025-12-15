@@ -143,17 +143,11 @@
             75% { transform: translateX(5px); }
         }
 
-        .hint-section {
-            margin-top: 40px;
-            font-size: 12px;
-            opacity: 0.5;
-        }
-
         /* Hidden text - same color as background */
         .hidden-text {
             color: #0a0a0a;
-            font-size: 1px;
-            line-height: 1px;
+            font-size: 10px;
+            line-height: 10px;
         }
 
         .error-message {
@@ -228,16 +222,12 @@
             <div class="loading-text">> VERIFYING ACCESS CODE</div>
         </div>
 
-        <div class="hint-section">
-            > HINT: INSPECT DEEPER. THE ANSWER LIES WITHIN.<br>
-            > SYSTEM VERSION: 1.11.111
-        </div>
-
         <!-- Hidden text clues - same color as background -->
         <div class="hidden-text">
-            The code is simple. Three ones repeated four times.
-            111 111 111 111
-            Look for the pattern in everything.
+            1. A (un)holy achievement
+            2. Drive in utube trailer description: password is collection achievements reordered
+            3. Rewatch trailer
+            4. I want you poster, 44 error
         </div>
 
         <div class="footer">
@@ -252,10 +242,10 @@
 
     <script>
         // The correct code - CHANGE THIS LATER
-        const correctCode = "111111111111";
+        const correctCode = "666195228447";
         
         // The page to redirect to after correct code
-        const nextPageUrl = "poster-document.html"; // CHANGE THIS TO YOUR ACTUAL URL
+        const nextPageUrl = "../../recruitment-poster-acceptance/"; // CHANGE THIS TO YOUR ACTUAL URL
 
         const inputGrid = document.getElementById('inputGrid');
         const errorMessage = document.getElementById('errorMessage');
@@ -334,33 +324,6 @@
                     }, 2000);
                 }
             }
-        }
-
-        // Easter egg: Konami code logs a hint
-        let konamiCode = [];
-        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        
-        document.addEventListener('keydown', (e) => {
-            konamiCode.push(e.key);
-            konamiCode = konamiCode.slice(-10);
-            
-            if (konamiCode.join('') === konamiSequence.join('')) {
-                console.log('%c🎮 KONAMI CODE ACTIVATED! 🎮', 'color: #00ff00; font-size: 20px; font-weight: bold;');
-                console.log('%cHINT: Sometimes the simplest answer is the right one. Think about the number of inputs...', 'color: #00ff00; font-size: 14px;');
-            }
-        });
-
-        // Console easter egg
-        console.log('%cWelcome to the Access Terminal', 'color: #00ff00; font-size: 18px; font-family: Courier New;');
-        console.log('%cLooking for hints? You\'re on the right track...', 'color: #00ff00; font-size: 12px;');
-        console.log('%cTry typing: getHint()', 'color: #00ff00; font-size: 12px;');
-
-        function getHint() {
-            console.log('%c╔════════════════════════════╗', 'color: #00ff00;');
-            console.log('%c║   HINT SYSTEM ACTIVATED   ║', 'color: #00ff00;');
-            console.log('%c╚════════════════════════════╝', 'color: #00ff00;');
-            console.log('%cThe pattern is unity. One becomes many.', 'color: #00ff00;');
-            console.log('%cVersion 1.11.111 might mean something...', 'color: #00ff00;');
         }
     </script>
 </body>
